@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>РњРµСЃСЃРµРЅРґР¶РµСЂ | Р§Р°С‚ СЃ РґСЂСѓРіРѕРј</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            background: #0f0f10;
+            color: #eef2ff;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .login-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #0f0f10 0%, #1a1a1e 100%);
+        }
+
+        .login-container {
+            background: rgba(28, 28, 30, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 2rem;
+            padding: 2rem;
+            width: 420px;
+            max-width: 90%;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+            .login-container h2 {
+                font-size: 1.8rem;
+                font-weight: 600;
+                margin-bottom: 1.5rem;
+                text-align: center;
+            }
+
+            .login-container .welcome-title {
+                color: #0a84ff;
+                font-size: 1.4rem;
+                margin-bottom: 0.5rem;
+            }
+
+            .login-container input {
+                width: 100%;
+                padding: 14px 16px;
+                margin-bottom: 12px;
+                border-radius: 1rem;
+                border: 1px solid #3a3a3c;
+                background: #0f0f10;
+                color: white;
+                font-size: 1rem;
+            }
+
+                .login-container input:focus {
+                    outline: none;
+                    border-color: #0a84ff;
+                    box-shadow: 0 0 0 3px rgba(10, 132, 255, 0.2);
+                }
+
+            .login-container button {
+                width: 100%;
+                background: #0a84ff;
+                border: none;
+                padding: 14px;
+                border-radius: 2rem;
+                font-weight: 600;
+                font-size: 1rem;
+                color: white;
+                cursor: pointer;
+                margin-top: 8px;
+            }
+
+                .login-container button:hover {
+                    background: #0063ce;
+                }
+
+        .auth-msg {
+            margin-top: 1rem;
+            text-align: center;
+            font-size: 0.85rem;
+            padding: 10px;
+            border-radius: 1rem;
+        }
+
+        .switch-link {
+            text-align: center;
+            margin-top: 16px;
+            font-size: 0.9rem;
+            color: #98989e;
+        }
+
+            .switch-link span {
+                color: #0a84ff;
+                cursor: pointer;
+                font-weight: 500;
+            }
+
+                .switch-link span:hover {
+                    text-decoration: underline;
+                }
+
+        .messenger {
+            display: flex;
+            height: 100vh;
+            width: 100%;
+        }
+
+        .sidebar {
+            width: 320px;
+            background: #1c1c1e;
+            border-right: 1px solid #2c2c30;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            border-bottom: 1px solid #2c2c30;
+            background: #151517;
+        }
+
+            .sidebar-header h2 {
+                font-size: 1.5rem;
+                font-weight: 600;
+                margin-bottom: 15px;
+            }
+
+        .search-box {
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+            .search-box input {
+                width: 100%;
+                padding: 10px 14px;
+                border-radius: 1rem;
+                border: 1px solid #3a3a3c;
+                background: #0f0f10;
+                color: white;
+                font-size: 0.9rem;
+            }
+
+        .search-results {
+            background: #2c2c2e;
+            border-radius: 1rem;
+            margin-top: 5px;
+            max-height: 200px;
+            overflow-y: auto;
+            position: absolute;
+            width: 100%;
+            z-index: 100;
+        }
+
+        .search-result-item {
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+            .search-result-item:hover {
+                background: #3a3a3c;
+            }
+
+        .add-friend-btn {
+            background: #0a84ff;
+            border: none;
+            padding: 4px 12px;
+            border-radius: 1rem;
+            color: white;
+            cursor: pointer;
+            font-size: 0.75rem;
+        }
+
+        .chats-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 10px;
+        }
+
+        .chat-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            border-radius: 1rem;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-bottom: 4px;
+        }
+
+            .chat-item:hover {
+                background: #2c2c2e;
+            }
+
+            .chat-item.active {
+                background: #0a84ff20;
+                border-left: 3px solid #0a84ff;
+            }
+
+        .chat-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #0a84ff, #5e5ce0);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            font-weight: 600;
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+
+            .chat-avatar img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+
+        .chat-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .chat-name {
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 4px;
+        }
+
+        .chat-last-message {
+            font-size: 0.75rem;
+            color: #98989e;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .sidebar-footer {
+            padding: 15px 20px;
+            border-top: 1px solid #2c2c30;
+        }
+
+            .sidebar-footer button {
+                width: 100%;
+                background: #2c2c2e;
+                border: none;
+                padding: 10px;
+                border-radius: 2rem;
+                color: white;
+                cursor: pointer;
+                font-size: 0.85rem;
+            }
+
+        .chat-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: #0f0f10;
+        }
+
+        .chat-header {
+            padding: 16px 24px;
+            background: #1c1c1e;
+            border-bottom: 1px solid #2c2c30;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .chat-header-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #0a84ff, #5e5ce0);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            font-weight: 600;
+            overflow: hidden;
+        }
+
+            .chat-header-avatar img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+
+        .chat-header-info h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .chat-header-info p {
+            font-size: 0.75rem;
+            color: #30d158;
+        }
+
+        .messages-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .message {
+            max-width: 65%;
+            padding: 10px 14px;
+            border-radius: 1.2rem;
+            font-size: 0.95rem;
+            word-wrap: break-word;
+        }
+
+            .message.outgoing {
+                background: #0a84ff;
+                color: white;
+                align-self: flex-end;
+                border-bottom-right-radius: 4px;
+            }
+
+            .message.incoming {
+                background: #2c2c2e;
+                align-self: flex-start;
+                border-bottom-left-radius: 4px;
+            }
+
+        .message-input-area {
+            padding: 16px 24px;
+            background: #1c1c1e;
+            border-top: 1px solid #2c2c30;
+            display: flex;
+            gap: 12px;
+        }
+
+            .message-input-area input {
+                flex: 1;
+                padding: 12px 18px;
+                border-radius: 2rem;
+                border: none;
+                background: #2c2c2e;
+                color: white;
+                font-size: 1rem;
+                outline: none;
+            }
+
+            .message-input-area button {
+                background: #0a84ff;
+                border: none;
+                padding: 12px 24px;
+                border-radius: 2rem;
+                font-weight: 600;
+                cursor: pointer;
+                color: white;
+            }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .empty-chat {
+            text-align: center;
+            color: #6c6c70;
+            padding: 60px 20px;
+            font-style: italic;
+        }
+
+        .flex-between {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .online-status {
+            font-size: 0.7rem;
+        }
+
+        .online {
+            color: #30d158;
+        }
+
+        .avatar-large {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+            background: transparent;
+        }
+
+            .avatar-large div {
+                width: 100%;
+                height: 100%;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 3rem;
+                font-weight: 600;
+                background: linear-gradient(135deg, #0a84ff, #5e5ce0);
+                color: white;
+            }
+
+            .avatar-large img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                border-radius: 50%;
+            }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+            .form-group label {
+                display: block;
+                margin-bottom: 0.5rem;
+                color: #98989e;
+            }
+
+            .form-group input {
+                width: 100%;
+                padding: 12px;
+                border-radius: 1rem;
+                border: 1px solid #3a3a3c;
+                background: #0f0f10;
+                color: white;
+                font-size: 1rem;
+            }
+
+        .btn-success {
+            background: #30d158;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 2rem;
+            font-weight: 600;
+            font-size: 1rem;
+            color: white;
+            cursor: pointer;
+            flex: 1;
+        }
+
+        .btn-secondary {
+            background: #3a3a3c;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 2rem;
+            font-weight: 600;
+            font-size: 1rem;
+            color: white;
+            cursor: pointer;
+            flex: 1;
+        }
+
+        .btn-danger {
+            background: #ff3b30;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 2rem;
+            font-weight: 600;
+            font-size: 1rem;
+            color: white;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        hr {
+            margin: 15px 0;
+            border-color: #2c2c30;
+        }
+
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+        }
+
+            .modal.hidden {
+                display: none;
+            }
+
+        .modal-content {
+            background: #1c1c1e;
+            border-radius: 2rem;
+            padding: 2rem;
+            width: 90%;
+            max-width: 420px;
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-wrapper" id="loginContainer">
+        <div class="login-container">
+            <div style="text-align: center; margin-bottom: 0.5rem;">
+                <span style="font-size: 3rem;">рџ’¬</span>
+            </div>
+            <div class="welcome-title">Р”РѕР±СЂРѕ РїРѕР¶Р°Р»РѕРІР°С‚СЊ</div>
+
+            <!-- Р¤РѕСЂРјР° РІС…РѕРґР° -->
+            <div id="loginForm">
+                <h2>рџ”ђ Р’С…РѕРґ</h2>
+                <input type="email" id="loginEmail" placeholder="Email">
+                <input type="password" id="loginPassword" placeholder="РџР°СЂРѕР»СЊ">
+                <button id="loginBtn">Р’РѕР№С‚Рё</button>
+                <div class="switch-link">
+                    РќРµС‚ Р°РєРєР°СѓРЅС‚Р°? <span id="showRegisterBtn">Р—Р°СЂРµРіРёСЃС‚СЂРёСЂРѕРІР°С‚СЊСЃСЏ</span>
+                </div>
+            </div>
+
+            <!-- Р¤РѕСЂРјР° СЂРµРіРёСЃС‚СЂР°С†РёРё -->
+            <div id="registerForm" style="display: none;">
+                <h2>рџ“ќ Р РµРіРёСЃС‚СЂР°С†РёСЏ</h2>
+                <input type="text" id="regName" placeholder="Р’Р°С€Рµ РёРјСЏ">
+                <input type="email" id="regEmail" placeholder="Email">
+                <input type="password" id="regPassword" placeholder="РџР°СЂРѕР»СЊ">
+                <button id="registerBtn">РЎРѕР·РґР°С‚СЊ Р°РєРєР°СѓРЅС‚</button>
+                <div class="switch-link">
+                    РЈР¶Рµ РµСЃС‚СЊ Р°РєРєР°СѓРЅС‚? <span id="showLoginBtn">Р’РѕР№С‚Рё</span>
+                </div>
+            </div>
+
+            <div id="authMsg" class="auth-msg"></div>
+        </div>
+    </div>
+
+    <div id="messenger" class="messenger hidden">
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h2>рџ’¬ Р§Р°С‚С‹</h2>
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="рџ”Ќ РќР°Р№С‚Рё РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ РїРѕ РёРјРµРЅРё..." autocomplete="off">
+                    <div id="searchResults" class="search-results hidden"></div>
+                </div>
+            </div>
+            <div class="chats-list" id="chatsList">
+                <div style="text-align: center; color: #6c6c70; padding: 20px;">РЈ РІР°СЃ РїРѕРєР° РЅРµС‚ С‡Р°С‚РѕРІ</div>
+            </div>
+            <div class="sidebar-footer">
+                <div class="flex-between" style="margin-bottom: 10px;">
+                    <span id="myName" style="font-size: 0.9rem; font-weight: 600;"></span>
+                    <span id="myStatus" class="online-status online">рџџў РІ СЃРµС‚Рё</span>
+                </div>
+                <button id="settingsBtn">вљ™пёЏ РќР°СЃС‚СЂРѕР№РєРё</button>
+            </div>
+        </div>
+
+        <div class="chat-area">
+            <div class="chat-header" id="chatHeader">
+                <div class="chat-header-avatar" id="chatHeaderAvatar">рџ¤–</div>
+                <div class="chat-header-info">
+                    <h3 id="chatHeaderName">Р’С‹Р±РµСЂРёС‚Рµ С‡Р°С‚</h3>
+                    <p id="chatHeaderStatus"></p>
+                </div>
+            </div>
+            <div class="messages-container" id="messagesContainer">
+                <div class="empty-chat">рџ’¬ Р’С‹Р±РµСЂРёС‚Рµ С‡Р°С‚ СЃР»РµРІР°, С‡С‚РѕР±С‹ РЅР°С‡Р°С‚СЊ РѕР±С‰РµРЅРёРµ</div>
+            </div>
+            <div class="message-input-area">
+                <input type="text" id="messageInput" placeholder="СЃРѕРѕР±С‰РµРЅРёРµ..." autocomplete="off">
+                <button id="sendMsgBtn">РћС‚РїСЂР°РІРёС‚СЊ</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="settingsModal" class="modal hidden">
+        <div class="modal-content">
+            <h2>вљ™пёЏ РќР°СЃС‚СЂРѕР№РєРё РїСЂРѕС„РёР»СЏ</h2>
+            <div style="text-align: center;">
+                <div class="avatar-large" id="modalAvatar" onclick="document.getElementById('avatarInput').click()">
+                    <div id="modalAvatarContent">рџ‘¤</div>
+                </div>
+                <input type="file" id="avatarInput" accept="image/jpeg,image/png,image/gif,image/webp" style="display: none;">
+                <p style="font-size: 0.7rem; color: #98989e; margin-top: 5px;">РќР°Р¶РјРёС‚Рµ РЅР° Р°РІР°С‚Р°СЂ, С‡С‚РѕР±С‹ Р·Р°РіСЂСѓР·РёС‚СЊ С„РѕС‚Рѕ</p>
+            </div>
+            <div class="form-group">
+                <label>рџ‘¤ РРјСЏ</label>
+                <input type="text" id="modalName" placeholder="Р’Р°С€Рµ РёРјСЏ">
+            </div>
+            <div class="form-group">
+                <label>рџ”’ РќРѕРІС‹Р№ РїР°СЂРѕР»СЊ</label>
+                <input type="password" id="modalPassword" placeholder="РћСЃС‚Р°РІСЊС‚Рµ РїСѓСЃС‚С‹Рј, С‡С‚РѕР±С‹ РЅРµ РјРµРЅСЏС‚СЊ">
+            </div>
+            <div style="display: flex; gap: 10px; margin-top: 1rem;">
+                <button id="saveSettingsBtn" class="btn-success">рџ’ѕ РЎРѕС…СЂР°РЅРёС‚СЊ РёР·РјРµРЅРµРЅРёСЏ</button>
+                <button id="closeSettingsBtn" class="btn-secondary">вќЊ РћС‚РјРµРЅР°</button>
+            </div>
+            <hr>
+            <button id="logoutFromSettingsBtn" class="btn-danger">рџљЄ Р’С‹Р№С‚Рё РёР· Р°РєРєР°СѓРЅС‚Р°</button>
+        </div>
+    </div>
+
+    <script type="module">
+        const firebaseConfig = {
+            apiKey: "AIzaSyBzincDq0G49TbmmPulB3QFka5oak-xaJE",
+            authDomain: "zagulskoe.firebaseapp.com",
+            projectId: "zagulskoe",
+            storageBucket: "zagulskoe.firebasestorage.app",
+            messagingSenderId: "1085814530284",
+            appId: "1:1085814530284:web:8bf8d0a790e8936d9705c9",
+            measurementId: "G-13BZPCMLFP"
+        };
+
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut, updatePassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, where, getDocs, updateDoc, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        let currentUser = null;
+        let currentChatUser = null;
+        let chats = [];
+
+        const messengerEl = document.getElementById('messenger');
+        const loginContainer = document.getElementById('loginContainer');
+        const chatsList = document.getElementById('chatsList');
+        const messagesContainer = document.getElementById('messagesContainer');
+        const searchInput = document.getElementById('searchInput');
+        const searchResults = document.getElementById('searchResults');
+        const settingsModal = document.getElementById('settingsModal');
+        const avatarInput = document.getElementById('avatarInput');
+
+        // РџРµСЂРµРєР»СЋС‡РµРЅРёРµ РјРµР¶РґСѓ С„РѕСЂРјР°РјРё
+        document.getElementById('showRegisterBtn').addEventListener('click', () => {
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById('registerForm').style.display = 'block';
+            document.getElementById('authMsg').innerHTML = '';
+        });
+
+        document.getElementById('showLoginBtn').addEventListener('click', () => {
+            document.getElementById('registerForm').style.display = 'none';
+            document.getElementById('loginForm').style.display = 'block';
+            document.getElementById('authMsg').innerHTML = '';
+        });
+
+        function updateAllAvatars(avatarBase64) {
+            const modalContentDiv = document.getElementById('modalAvatarContent');
+            if (avatarBase64) {
+                modalContentDiv.innerHTML = `<img src="${avatarBase64}">`;
+            } else {
+                modalContentDiv.innerHTML = currentUser?.name?.charAt(0).toUpperCase() || 'рџ‘¤';
+            }
+            renderChatsList();
+            if (currentChatUser) {
+                updateChatHeader();
+            }
+        }
+
+        async function uploadAvatar(file) {
+            if (!file || !currentUser) {
+                alert('РЎРЅР°С‡Р°Р»Р° РІРѕР№РґРёС‚Рµ РІ Р°РєРєР°СѓРЅС‚!');
+                return;
+            }
+
+            if (file.size > 2 * 1024 * 1024) {
+                alert('вќЊ Р¤Р°Р№Р» СЃР»РёС€РєРѕРј Р±РѕР»СЊС€РѕР№! РњР°РєСЃРёРјСѓРј 2MB');
+                return;
+            }
+
+            if (!file.type.startsWith('image/')) {
+                alert('вќЊ РџРѕР¶Р°Р»СѓР№СЃС‚Р°, РІС‹Р±РµСЂРёС‚Рµ РёР·РѕР±СЂР°Р¶РµРЅРёРµ!');
+                return;
+            }
+
+            try {
+                const modalContentDiv = document.getElementById('modalAvatarContent');
+                modalContentDiv.innerHTML = 'вЏі';
+
+                const reader = new FileReader();
+                reader.onload = async function (e) {
+                    const base64 = e.target.result;
+                    await updateDoc(doc(db, 'users', currentUser.uid), { avatar: base64 });
+                    currentUser.avatar = base64;
+                    updateAllAvatars(base64);
+
+                    const msg = document.createElement('div');
+                    msg.textContent = 'вњ… РђРІР°С‚Р°СЂ СѓСЃРїРµС€РЅРѕ РѕР±РЅРѕРІР»С‘РЅ!';
+                    msg.style.cssText = 'position:fixed; bottom:20px; left:50%; transform:translateX(-50%); background:#30d158; color:white; padding:10px 20px; border-radius:2rem; z-index:2000;';
+                    document.body.appendChild(msg);
+                    setTimeout(() => msg.remove(), 2000);
+                };
+                reader.readAsDataURL(file);
+            } catch (error) {
+                console.error('РћС€РёР±РєР°:', error);
+                alert('вќЊ РћС€РёР±РєР° РїСЂРё Р·Р°РіСЂСѓР·РєРµ Р°РІР°С‚Р°СЂР°: ' + error.message);
+                updateAllAvatars(currentUser?.avatar);
+            }
+        }
+
+        avatarInput.addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                await uploadAvatar(file);
+            }
+            avatarInput.value = '';
+        });
+
+        window.register = async () => {
+            const name = document.getElementById('regName').value.trim();
+            const email = document.getElementById('regEmail').value;
+            const password = document.getElementById('regPassword').value;
+            const msgDiv = document.getElementById('authMsg');
+
+            if (!name || !email || !password) {
+                msgDiv.innerHTML = '<span style="color:#ff453a;">вќЊ Р—Р°РїРѕР»РЅРёС‚Рµ РІСЃРµ РїРѕР»СЏ!</span>';
+                return;
+            }
+
+            try {
+                const userCred = await createUserWithEmailAndPassword(auth, email, password);
+                await setDoc(doc(db, 'users', userCred.user.uid), {
+                    uid: userCred.user.uid,
+                    name: name,
+                    email: email,
+                    online: true,
+                    avatar: null,
+                    createdAt: Date.now()
+                });
+                msgDiv.innerHTML = '<span style="color:#30d158;">вњ… РђРєРєР°СѓРЅС‚ СЃРѕР·РґР°РЅ! РўРµРїРµСЂСЊ РІРѕР№РґРёС‚Рµ.</span>';
+                setTimeout(() => msgDiv.innerHTML = '', 2000);
+                document.getElementById('regName').value = '';
+                document.getElementById('regEmail').value = '';
+                document.getElementById('regPassword').value = '';
+                // РџРµСЂРµРєР»СЋС‡Р°РµРјСЃСЏ РЅР° С„РѕСЂРјСѓ РІС…РѕРґР°
+                document.getElementById('registerForm').style.display = 'none';
+                document.getElementById('loginForm').style.display = 'block';
+            } catch (e) {
+                if (e.code === 'auth/email-already-in-use') {
+                    msgDiv.innerHTML = '<span style="color:#ff453a;">вќЊ Р­С‚РѕС‚ email СѓР¶Рµ Р·Р°СЂРµРіРёСЃС‚СЂРёСЂРѕРІР°РЅ!</span>';
+                } else {
+                    msgDiv.innerHTML = '<span style="color:#ff453a;">вќЊ РћС€РёР±РєР°: ' + e.message + '</span>';
+                }
+            }
+        };
+
+        window.login = async () => {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            const msgDiv = document.getElementById('authMsg');
+
+            if (!email || !password) {
+                msgDiv.innerHTML = '<span style="color:#ff453a;">вќЊ Р’РІРµРґРёС‚Рµ email Рё РїР°СЂРѕР»СЊ!</span>';
+                return;
+            }
+
+            try {
+                await signInWithEmailAndPassword(auth, email, password);
+            } catch (e) {
+                msgDiv.innerHTML = '<span style="color:#ff453a;">вќЊ РќРµРІРµСЂРЅС‹Р№ email РёР»Рё РїР°СЂРѕР»СЊ</span>';
+            }
+        };
+
+        async function logout() {
+            if (currentUser) {
+                await updateDoc(doc(db, 'users', currentUser.uid), { online: false });
+            }
+            if (settingsModal) {
+                settingsModal.classList.add('hidden');
+            }
+            await signOut(auth);
+        }
+
+        async function searchUsers(searchText) {
+            if (!searchText.trim() || searchText.length < 2) {
+                searchResults.classList.add('hidden');
+                return;
+            }
+
+            const snapshot = await getDocs(collection(db, 'users'));
+            const results = [];
+            snapshot.forEach(docSnap => {
+                const user = docSnap.data();
+                if (user.uid !== currentUser?.uid &&
+                    user.name.toLowerCase().includes(searchText.toLowerCase())) {
+                    results.push(user);
+                }
+            });
+
+            if (results.length > 0) {
+                searchResults.classList.remove('hidden');
+                searchResults.innerHTML = results.map(user => `
+                            <div class="search-result-item">
+                                <span><strong>${user.name}</strong> (${user.email})</span>
+                                <button class="add-friend-btn" onclick="window.startChatWith('${user.uid}')">рџ’¬ РќР°РїРёСЃР°С‚СЊ</button>
+                            </div>
+                        `).join('');
+            } else {
+                searchResults.classList.remove('hidden');
+                searchResults.innerHTML = '<div style="padding: 10px; color: #98989e;">рџ‘¤ РџРѕР»СЊР·РѕРІР°С‚РµР»СЊ РЅРµ РЅР°Р№РґРµРЅ</div>';
+            }
+        }
+
+        window.startChatWith = async (friendUid) => {
+            const friendDoc = await getDoc(doc(db, 'users', friendUid));
+            if (friendDoc.exists()) {
+                const friend = friendDoc.data();
+                currentChatUser = { uid: friendUid, ...friend };
+                updateChatHeader();
+                loadMessages();
+                if (!chats.find(c => c.uid === friendUid)) {
+                    chats.unshift({ uid: friendUid, name: friend.name, avatar: friend.avatar });
+                    renderChatsList();
+                }
+            }
+            searchResults.classList.add('hidden');
+            searchInput.value = '';
+        };
+
+        async function loadChats() {
+            if (!currentUser) return;
+
+            const q = query(collection(db, 'messages'), orderBy('timestamp', 'desc'));
+            onSnapshot(q, async (snapshot) => {
+                const chatUsers = new Map();
+
+                for (const docSnap of snapshot.docs) {
+                    const msg = docSnap.data();
+                    if (msg.from === currentUser.uid || msg.to === currentUser.uid) {
+                        const friendId = msg.from === currentUser.uid ? msg.to : msg.from;
+                        if (!chatUsers.has(friendId)) {
+                            const userDoc = await getDoc(doc(db, 'users', friendId));
+                            if (userDoc.exists()) {
+                                const userData = userDoc.data();
+                                chatUsers.set(friendId, {
+                                    uid: friendId,
+                                    name: userData.name,
+                                    avatar: userData.avatar,
+                                    lastMessage: msg.text,
+                                    lastTime: msg.timestamp
+                                });
+                            }
+                        }
+                    }
+                }
+
+                chats = Array.from(chatUsers.values())
+                    .sort((a, b) => (b.lastTime || 0) - (a.lastTime || 0));
+                renderChatsList();
+            });
+        }
+
+        function renderChatsList() {
+            if (chats.length === 0) {
+                chatsList.innerHTML = '<div style="text-align: center; color: #6c6c70; padding: 20px;">рџ’¬ РќРµС‚ С‡Р°С‚РѕРІ. РќР°Р№РґРёС‚Рµ РґСЂСѓРіР° РїРѕ РїРѕРёСЃРєСѓ!</div>';
+                return;
+            }
+
+            chatsList.innerHTML = chats.map(chat => `
+                        <div class="chat-item ${currentChatUser?.uid === chat.uid ? 'active' : ''}" onclick="window.selectChat('${chat.uid}')">
+                            <div class="chat-avatar">
+                                ${chat.avatar ? `<img src="${chat.avatar}">` : chat.name.charAt(0).toUpperCase()}
+                            </div>
+                            <div class="chat-info">
+                                <div class="chat-name">${chat.name}</div>
+                                <div class="chat-last-message">${chat.lastMessage?.substring(0, 30) || 'РќРµС‚ СЃРѕРѕР±С‰РµРЅРёР№'}</div>
+                            </div>
+                        </div>
+                    `).join('');
+        }
+
+        window.selectChat = async (uid) => {
+            const userDoc = await getDoc(doc(db, 'users', uid));
+            if (userDoc.exists()) {
+                currentChatUser = { uid, ...userDoc.data() };
+                updateChatHeader();
+                loadMessages();
+                renderChatsList();
+            }
+        };
+
+        function updateChatHeader() {
+            if (currentChatUser) {
+                document.getElementById('chatHeaderName').innerText = currentChatUser.name;
+                document.getElementById('chatHeaderStatus').innerHTML = currentChatUser.online ? 'рџџў РІ СЃРµС‚Рё' : 'вљЄ РЅРµ РІ СЃРµС‚Рё';
+                const headerAvatar = document.getElementById('chatHeaderAvatar');
+                if (currentChatUser.avatar) {
+                    headerAvatar.innerHTML = `<img src="${currentChatUser.avatar}">`;
+                } else {
+                    headerAvatar.innerHTML = currentChatUser.name.charAt(0).toUpperCase();
+                }
+            } else {
+                document.getElementById('chatHeaderName').innerText = 'Р’С‹Р±РµСЂРёС‚Рµ С‡Р°С‚';
+                document.getElementById('chatHeaderStatus').innerHTML = '';
+            }
+        }
+
+        function loadMessages() {
+            if (!currentChatUser || !currentUser) return;
+
+            const q = query(collection(db, 'messages'), orderBy('timestamp'));
+            onSnapshot(q, (snapshot) => {
+                messagesContainer.innerHTML = '';
+                let hasMessages = false;
+
+                snapshot.forEach(docSnap => {
+                    const msg = docSnap.data();
+                    if ((msg.from === currentUser.uid && msg.to === currentChatUser.uid) ||
+                        (msg.from === currentChatUser.uid && msg.to === currentUser.uid)) {
+                        hasMessages = true;
+                        const div = document.createElement('div');
+                        div.className = `message ${msg.from === currentUser.uid ? 'outgoing' : 'incoming'}`;
+                        div.innerHTML = msg.text;
+                        messagesContainer.appendChild(div);
+                    }
+                });
+
+                if (!hasMessages) {
+                    messagesContainer.innerHTML = '<div class="empty-chat">рџ’¬ РќР°РїРёС€РёС‚Рµ РїРµСЂРІРѕРµ СЃРѕРѕР±С‰РµРЅРёРµ!</div>';
+                }
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            });
+        }
+
+        async function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const text = input.value.trim();
+            if (!text || !currentChatUser) {
+                if (!currentChatUser) alert('РЎРЅР°С‡Р°Р»Р° РІС‹Р±РµСЂРёС‚Рµ С‡Р°С‚!');
+                return;
+            }
+
+            await addDoc(collection(db, 'messages'), {
+                from: currentUser.uid,
+                to: currentChatUser.uid,
+                text: text,
+                timestamp: Date.now()
+            });
+            input.value = '';
+        }
+
+        function openSettings() {
+            document.getElementById('modalName').value = currentUser.name;
+            document.getElementById('modalPassword').value = '';
+
+            const modalContentDiv = document.getElementById('modalAvatarContent');
+            if (currentUser.avatar) {
+                modalContentDiv.innerHTML = `<img src="${currentUser.avatar}">`;
+            } else {
+                modalContentDiv.innerHTML = currentUser.name.charAt(0).toUpperCase();
+            }
+
+            settingsModal.classList.remove('hidden');
+        }
+
+        async function saveSettings() {
+            const newName = document.getElementById('modalName').value.trim();
+            const newPassword = document.getElementById('modalPassword').value;
+
+            if (newName && newName !== currentUser.name) {
+                await updateDoc(doc(db, 'users', currentUser.uid), { name: newName });
+                currentUser.name = newName;
+                document.getElementById('myName').innerText = newName;
+                updateChatHeader();
+                renderChatsList();
+            }
+
+            if (newPassword) {
+                await updatePassword(auth.currentUser, newPassword);
+            }
+
+            settingsModal.classList.add('hidden');
+            alert('вњ… РџСЂРѕС„РёР»СЊ РѕР±РЅРѕРІР»С‘РЅ!');
+        }
+
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                const userDoc = await getDoc(doc(db, 'users', user.uid));
+                let userData = userDoc.data();
+
+                if (!userData) {
+                    userData = { name: user.email.split('@')[0], online: true };
+                    await setDoc(doc(db, 'users', user.uid), {
+                        uid: user.uid,
+                        name: user.email.split('@')[0],
+                        email: user.email,
+                        online: true,
+                        avatar: null
+                    });
+                } else {
+                    await updateDoc(doc(db, 'users', user.uid), { online: true });
+                }
+
+                currentUser = { uid: user.uid, ...userData };
+                document.getElementById('myName').innerText = currentUser.name;
+
+                loginContainer.classList.add('hidden');
+                messengerEl.classList.remove('hidden');
+
+                loadChats();
+            } else {
+                currentUser = null;
+                currentChatUser = null;
+                loginContainer.classList.remove('hidden');
+                messengerEl.classList.add('hidden');
+            }
+        });
+
+        document.getElementById('loginBtn').addEventListener('click', () => window.login());
+        document.getElementById('registerBtn').addEventListener('click', () => window.register());
+        document.getElementById('settingsBtn')?.addEventListener('click', openSettings);
+        document.getElementById('saveSettingsBtn')?.addEventListener('click', saveSettings);
+        document.getElementById('closeSettingsBtn')?.addEventListener('click', () => {
+            settingsModal.classList.add('hidden');
+        });
+        document.getElementById('logoutFromSettingsBtn')?.addEventListener('click', logout);
+        document.getElementById('sendMsgBtn')?.addEventListener('click', sendMessage);
+        document.getElementById('messageInput')?.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendMessage();
+        });
+
+        searchInput.addEventListener('input', (e) => {
+            searchUsers(e.target.value);
+        });
+
+        document.addEventListener('click', (e) => {
+            if (searchResults && !searchResults.contains(e.target) && e.target !== searchInput) {
+                searchResults.classList.add('hidden');
+            }
+        });
+
+        window.addEventListener('beforeunload', async () => {
+            if (currentUser) {
+                await updateDoc(doc(db, 'users', currentUser.uid), { online: false });
+            }
+        });
+    </script>
+</body>
+</html>
